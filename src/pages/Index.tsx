@@ -117,7 +117,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h3 className="gradient-hero bg-clip-text text-transparent text-xl font-bold mb-2">
-              QuickMart
+              min10
             </h3>
             <p className="text-muted-foreground text-sm">
               Fresh groceries delivered in 10 minutes

@@ -34,6 +34,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       image: product.image,
       category: product.category,
       unit: product.unit,
+      brand: (product as any).brand, // Access brand from expanded product data
     });
     toast.success(`${product.name} added to cart!`);
   };

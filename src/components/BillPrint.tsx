@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Printer, Download, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { CustomerDetails } from './CustomerDetailsForm';
 
 interface BillPrintProps {
   onClose: () => void;
+  customerDetails: CustomerDetails;
 }
 
-export const BillPrint: React.FC<BillPrintProps> = ({ onClose }) => {
+export const BillPrint: React.FC<BillPrintProps> = ({ onClose, customerDetails }) => {
   const { items, total } = useCart();
   
   const currentDate = new Date();
@@ -56,35 +58,67 @@ export const BillPrint: React.FC<BillPrintProps> = ({ onClose }) => {
   };
 
   const generateBillContent = () => {
+    const paymentModeLabels = {
+      cod: 'Cash on Delivery',
+      upi: 'UPI Payment',
+      card: 'Credit/Debit Card',
+      wallet: 'Digital Wallet'
+    };
+
     return `
-QuickMart - Grocery Delivery
-============================
-Bill No: ${billNumber}
-Date: ${currentDate.toLocaleDateString()}
-Time: ${currentDate.toLocaleTimeString()}
+═══════════════════════════════════════
+            min10 - Express Delivery
+         📦 Delivered in 10 Minutes ⚡
+═══════════════════════════════════════
 
-Customer Details:
-Name: Guest User
-Address: New Delhi, 110001
-Phone: +91 XXXXXXXXXX
+INVOICE NO: ${billNumber}
+DATE: ${currentDate.toLocaleDateString('en-IN')}
+TIME: ${currentDate.toLocaleTimeString('en-IN')}
 
-Items Purchased:
-${items.map(item => 
-  `${item.name}\n  Qty: ${item.quantity} x ₹${item.price} = ₹${(item.quantity * item.price).toFixed(2)}`
-).join('\n')}
+───────────────────────────────────────
+CUSTOMER DETAILS:
+───────────────────────────────────────
+Name     : ${customerDetails.name}
+Email    : ${customerDetails.email}
+Mobile   : +91-${customerDetails.mobile}
+Address  : ${customerDetails.address}
+Payment  : ${paymentModeLabels[customerDetails.paymentMode]}
 
-============================
-Subtotal: ₹${total.toFixed(2)}
-GST (18%): ₹${gst.toFixed(2)}
-Delivery: ₹${deliveryFee.toFixed(2)}
-============================
-GRAND TOTAL: ₹${grandTotal.toFixed(2)}
+───────────────────────────────────────
+ITEMS PURCHASED:
+───────────────────────────────────────
+${items.map((item, index) => 
+  `${index + 1}. ${item.name}
+   Brand: ${item.brand || 'Generic'}
+   Unit: ${item.unit} | Qty: ${item.quantity}
+   Price: ₹${item.price} x ${item.quantity} = ₹${(item.quantity * item.price).toFixed(2)}`
+).join('\n\n')}
 
-Thank you for shopping with QuickMart!
-Delivered in 10 minutes ⚡
+───────────────────────────────────────
+BILL SUMMARY:
+───────────────────────────────────────
+Subtotal        : ₹${total.toFixed(2)}
+GST (18%)       : ₹${gst.toFixed(2)}
+Delivery Charge : ${deliveryFee === 0 ? 'FREE (₹25.00)' : `₹${deliveryFee.toFixed(2)}`}
+${deliveryFee === 0 ? 'Discount Applied: Free delivery on orders ₹199+' : ''}
+───────────────────────────────────────
+GRAND TOTAL     : ₹${grandTotal.toFixed(2)}
+═══════════════════════════════════════
 
-For support: support@quickmart.com
-Phone: 1800-QUICKMART
+💝 Thank you for choosing min10!
+🚀 India's Fastest Grocery Delivery
+
+📞 Customer Support: 1800-MIN10-24
+📧 Email: support@min10.com
+🌐 Website: www.min10.com
+
+───────────────────────────────────────
+⭐ Rate your experience & get 10% off
+   on your next order!
+───────────────────────────────────────
+
+GST IN: 07AABCM1234M1Z5
+FSSAI LIC: 12345678901234
     `.trim();
   };
 
@@ -92,61 +126,82 @@ Phone: 1800-QUICKMART
     <div className="print:block">
       {/* Print-friendly version */}
       <div className="print:block hidden">
-        <div className="max-w-md mx-auto p-6 bg-white text-black">
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold">QuickMart</h1>
-            <p className="text-sm text-gray-600">Grocery Delivery in 10 minutes</p>
+        <div className="max-w-md mx-auto p-6 bg-white text-black font-mono text-sm">
+          <div className="text-center mb-6 border-b-2 border-black pb-4">
+            <h1 className="text-2xl font-bold">min10</h1>
+            <p className="text-sm">📦 Express Delivery in 10 Minutes ⚡</p>
             <div className="mt-2 text-xs">
-              <p>Bill No: {billNumber}</p>
-              <p>{currentDate.toLocaleDateString()} {currentDate.toLocaleTimeString()}</p>
+              <p>INVOICE NO: {billNumber}</p>
+              <p>{currentDate.toLocaleDateString('en-IN')} | {currentDate.toLocaleTimeString('en-IN')}</p>
             </div>
           </div>
 
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2">Customer Details:</h3>
-            <div className="text-sm text-gray-600">
-              <p>Name: Guest User</p>
-              <p>Address: New Delhi, 110001</p>
-              <p>Phone: +91 XXXXXXXXXX</p>
+          <div className="mb-4 border-b border-gray-400 pb-3">
+            <h3 className="font-bold mb-2 text-sm">CUSTOMER DETAILS:</h3>
+            <div className="text-xs space-y-1">
+              <p><strong>Name:</strong> {customerDetails.name}</p>
+              <p><strong>Email:</strong> {customerDetails.email}</p>
+              <p><strong>Mobile:</strong> +91-{customerDetails.mobile}</p>
+              <p><strong>Address:</strong> {customerDetails.address}</p>
+              <p><strong>Payment:</strong> {
+                customerDetails.paymentMode === 'cod' ? 'Cash on Delivery' :
+                customerDetails.paymentMode === 'upi' ? 'UPI Payment' :
+                customerDetails.paymentMode === 'card' ? 'Credit/Debit Card' :
+                'Digital Wallet'
+              }</p>
             </div>
           </div>
 
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2">Items:</h3>
-            {items.map((item) => (
-              <div key={item.id} className="flex justify-between text-sm mb-1">
-                <div>
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-gray-600">{item.quantity} x ₹{item.price}</p>
+          <div className="mb-4 border-b border-gray-400 pb-3">
+            <h3 className="font-bold mb-2 text-sm">ITEMS PURCHASED:</h3>
+            {items.map((item, index) => (
+              <div key={item.id} className="mb-3 text-xs">
+                <div className="flex justify-between font-semibold">
+                  <span>{index + 1}. {item.name}</span>
+                  <span>₹{(item.quantity * item.price).toFixed(2)}</span>
                 </div>
-                <p className="font-medium">₹{(item.quantity * item.price).toFixed(2)}</p>
+                <div className="text-gray-600 ml-3">
+                  <p>Brand: {item.brand || 'Generic'}</p>
+                  <p>Unit: {item.unit} | Qty: {item.quantity} | Price: ₹{item.price}</p>
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="border-t border-gray-300 pt-2">
-            <div className="flex justify-between text-sm mb-1">
-              <span>Subtotal:</span>
-              <span>₹{total.toFixed(2)}</span>
+          <div className="border-t-2 border-black pt-3">
+            <div className="space-y-1 text-xs">
+              <div className="flex justify-between">
+                <span>Subtotal:</span>
+                <span>₹{total.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>GST (18%):</span>
+                <span>₹{gst.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Delivery Charge:</span>
+                <span className={deliveryFee === 0 ? 'line-through' : ''}>
+                  {deliveryFee === 0 ? 'FREE (₹25.00)' : `₹${deliveryFee.toFixed(2)}`}
+                </span>
+              </div>
+              {deliveryFee === 0 && (
+                <p className="text-xs text-center font-semibold">🎉 Free delivery on orders ₹199+</p>
+              )}
             </div>
-            <div className="flex justify-between text-sm mb-1">
-              <span>GST (18%):</span>
-              <span>₹{gst.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-sm mb-2">
-              <span>Delivery:</span>
-              <span>₹{deliveryFee.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between font-bold text-lg border-t border-gray-300 pt-2">
-              <span>Total:</span>
+            <div className="flex justify-between font-bold text-lg border-t-2 border-black pt-2 mt-2">
+              <span>GRAND TOTAL:</span>
               <span>₹{grandTotal.toFixed(2)}</span>
             </div>
           </div>
 
-          <div className="text-center mt-6 text-xs text-gray-600">
-            <p>Thank you for shopping with QuickMart!</p>
-            <p>Delivered in 10 minutes ⚡</p>
-            <p className="mt-2">support@quickmart.com | 1800-QUICKMART</p>
+          <div className="text-center mt-6 text-xs border-t border-gray-400 pt-3">
+            <p className="font-bold">💝 Thank you for choosing min10!</p>
+            <p className="font-semibold">🚀 India's Fastest Grocery Delivery</p>
+            <div className="mt-3 space-y-1">
+              <p>📞 1800-MIN10-24 | 📧 support@min10.com</p>
+              <p>⭐ Rate us & get 10% off next order!</p>
+              <p className="mt-2 text-xs">GST IN: 07AABCM1234M1Z5 | FSSAI: 12345678901234</p>
+            </div>
           </div>
         </div>
       </div>
@@ -155,21 +210,28 @@ Phone: 1800-QUICKMART
       <div className="print:hidden">
         <Card className="max-w-md mx-auto">
           <CardHeader className="text-center">
-            <CardTitle className="gradient-hero bg-clip-text text-transparent">QuickMart</CardTitle>
-            <p className="text-sm text-muted-foreground">Grocery Delivery in 10 minutes</p>
+            <CardTitle className="gradient-hero bg-clip-text text-transparent">min10</CardTitle>
+            <p className="text-sm text-muted-foreground">📦 Express Delivery in 10 Minutes ⚡</p>
             <div className="text-xs text-muted-foreground mt-2">
-              <p>Bill No: {billNumber}</p>
-              <p>{currentDate.toLocaleDateString()} {currentDate.toLocaleTimeString()}</p>
+              <p>Invoice No: {billNumber}</p>
+              <p>{currentDate.toLocaleDateString('en-IN')} | {currentDate.toLocaleTimeString('en-IN')}</p>
             </div>
           </CardHeader>
 
           <CardContent className="space-y-4">
             <div>
               <h3 className="font-semibold mb-2">Customer Details:</h3>
-              <div className="text-sm text-muted-foreground">
-                <p>Name: Guest User</p>
-                <p>Address: New Delhi, 110001</p>
-                <p>Phone: +91 XXXXXXXXXX</p>
+              <div className="text-sm text-muted-foreground space-y-1">
+                <p><strong>Name:</strong> {customerDetails.name}</p>
+                <p><strong>Email:</strong> {customerDetails.email}</p>
+                <p><strong>Mobile:</strong> +91-{customerDetails.mobile}</p>
+                <p><strong>Address:</strong> {customerDetails.address}</p>
+                <p><strong>Payment Mode:</strong> {
+                  customerDetails.paymentMode === 'cod' ? 'Cash on Delivery' :
+                  customerDetails.paymentMode === 'upi' ? 'UPI Payment' :
+                  customerDetails.paymentMode === 'card' ? 'Credit/Debit Card' :
+                  'Digital Wallet'
+                }</p>
               </div>
             </div>
 
@@ -177,16 +239,21 @@ Phone: 1800-QUICKMART
 
             <div>
               <h3 className="font-semibold mb-2">Items Purchased:</h3>
-              <div className="space-y-2">
-                {items.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center">
-                    <div className="flex-1">
-                      <p className="font-medium text-sm">{item.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {item.quantity} x ₹{item.price} ({item.unit})
-                      </p>
+              <div className="space-y-3">
+                {items.map((item, index) => (
+                  <div key={item.id} className="border rounded-lg p-3 bg-muted/20">
+                    <div className="flex justify-between items-start mb-1">
+                      <div className="flex-1">
+                        <p className="font-medium text-sm">{index + 1}. {item.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Brand: {item.brand || 'Generic'} | Unit: {item.unit}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Qty: {item.quantity} × ₹{item.price}
+                        </p>
+                      </div>
+                      <p className="font-semibold text-primary">₹{(item.quantity * item.price).toFixed(2)}</p>
                     </div>
-                    <p className="font-medium">₹{(item.quantity * item.price).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
@@ -236,10 +303,12 @@ Phone: 1800-QUICKMART
               </Button>
             </div>
 
-            <div className="text-center text-xs text-muted-foreground mt-4">
-              <p>Thank you for shopping with QuickMart!</p>
-              <p>Delivered in 10 minutes ⚡</p>
-              <p className="mt-1">support@quickmart.com | 1800-QUICKMART</p>
+            <div className="text-center text-xs text-muted-foreground mt-4 space-y-1">
+              <p className="font-semibold">💝 Thank you for choosing min10!</p>
+              <p className="font-medium">🚀 India's Fastest Grocery Delivery</p>
+              <p className="mt-2">📞 1800-MIN10-24 | 📧 support@min10.com</p>
+              <p>⭐ Rate your experience & get 10% off next order!</p>
+              <p className="text-xs mt-2">GST IN: 07AABCM1234M1Z5 | FSSAI LIC: 12345678901234</p>
             </div>
 
             <Button onClick={onClose} variant="ghost" className="w-full mt-4">

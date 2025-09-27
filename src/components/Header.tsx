@@ -39,9 +39,9 @@ export const Header: React.FC = () => {
           <div className="flex items-center justify-between py-4">
             {/* Logo */}
             <div className="flex items-center">
-              <h1 className="gradient-hero bg-clip-text text-transparent text-2xl font-bold">
-                QuickMart
-              </h1>
+            <h1 className="gradient-hero bg-clip-text text-transparent text-2xl font-bold">
+              min10
+            </h1>
             </div>
 
             {/* Search */}
