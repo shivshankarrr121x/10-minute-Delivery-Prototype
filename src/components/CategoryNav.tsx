@@ -1,14 +1,16 @@
 import React from 'react';
-import { Apple, Milk, Cookie, Carrot, Package, Fish } from 'lucide-react';
+import { Apple, Milk, Cookie, Carrot, Package, Fish, Droplets, Sparkles, Wheat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const categories = [
-  { id: 'fruits', name: 'Fruits & Vegetables', icon: Apple, color: 'text-green-600' },
+  { id: 'fruits-vegetables', name: 'Fruits & Vegetables', icon: Apple, color: 'text-green-600' },
   { id: 'dairy', name: 'Dairy & Eggs', icon: Milk, color: 'text-blue-600' },
   { id: 'bakery', name: 'Bakery', icon: Cookie, color: 'text-orange-600' },
-  { id: 'vegetables', name: 'Fresh Vegetables', icon: Carrot, color: 'text-green-700' },
-  { id: 'snacks', name: 'Snacks & Beverages', icon: Package, color: 'text-purple-600' },
-  { id: 'meat', name: 'Meat & Fish', icon: Fish, color: 'text-red-600' },
+  { id: 'meat-seafood', name: 'Meat & Seafood', icon: Fish, color: 'text-red-600' },
+  { id: 'snacks-beverages', name: 'Snacks & Beverages', icon: Package, color: 'text-purple-600' },
+  { id: 'personal-care', name: 'Personal Care', icon: Sparkles, color: 'text-pink-600' },
+  { id: 'household', name: 'Household', icon: Droplets, color: 'text-indigo-600' },
+  { id: 'groceries', name: 'Groceries & Staples', icon: Wheat, color: 'text-yellow-600' },
 ];
 
 interface CategoryNavProps {

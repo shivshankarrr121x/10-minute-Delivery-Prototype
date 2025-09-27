@@ -1,7 +1,8 @@
-import React from 'react';
-import { X, Plus, Minus, ShoppingBag } from 'lucide-react';
+import React, { useState } from 'react';
+import { X, Plus, Minus, ShoppingBag, Receipt } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
+import { BillPrint } from './BillPrint';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface CartDrawerProps {
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const { items, total, updateQuantity, removeItem, clearCart } = useCart();
+  const [showBill, setShowBill] = useState(false);
 
   if (!isOpen) return null;
 
@@ -99,13 +101,34 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 <span className="text-lg font-semibold">Total:</span>
                 <span className="text-xl font-bold text-primary">₹{total.toFixed(2)}</span>
               </div>
-              <Button className="w-full gradient-primary text-white font-medium">
-                Proceed to Checkout
-              </Button>
+              
+              <div className="space-y-2">
+                <Button 
+                  onClick={() => setShowBill(true)}
+                  variant="outline" 
+                  className="w-full gap-2 mb-2"
+                >
+                  <Receipt className="h-4 w-4" />
+                  View Bill & Print
+                </Button>
+                
+                <Button className="w-full gradient-primary text-white font-medium">
+                  Proceed to Checkout
+                </Button>
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      {/* Bill Print Modal */}
+      {showBill && (
+        <div className="fixed inset-0 bg-black/80 z-60 flex items-center justify-center p-4">
+          <div className="w-full max-w-lg">
+            <BillPrint onClose={() => setShowBill(false)} />
+          </div>
+        </div>
+      )}
     </>
   );
 };

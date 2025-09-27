@@ -3,16 +3,14 @@ import { Truck, Clock, Star, Zap } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { CategoryNav } from '@/components/CategoryNav';
 import { ProductCard } from '@/components/ProductCard';
-import { products } from '@/data/products';
+import { ProductSearch } from '@/components/ProductSearch';
+import { expandedProducts as products } from '@/data/expandedProducts';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
-
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
-    : products.filter(product => product.category === selectedCategory);
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   return (
     <div className="min-h-screen bg-background">
@@ -90,6 +88,13 @@ const Index = () => {
               {filteredProducts.length} items
             </Badge>
           </div>
+
+          {/* Advanced Search & Filters */}
+          <ProductSearch 
+            products={products}
+            onFilteredProducts={setFilteredProducts}
+            selectedCategory={selectedCategory}
+          />
           
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
             {filteredProducts.map((product) => (
