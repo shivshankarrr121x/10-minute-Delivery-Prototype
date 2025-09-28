@@ -10,6 +10,49 @@ import meatImg from '@/assets/products/meat.jpg';
 import personalCareImg from '@/assets/products/personal-care.jpg';
 import householdImg from '@/assets/products/household.jpg';
 import snacksImg from '@/assets/products/snacks.jpg';
+import drumstickImg from '@/assets/products/drumstick.jpg';
+import onionsImg from '@/assets/products/onions.jpg';
+import potatoesImg from '@/assets/products/potatoes.jpg';
+import spinachImg from '@/assets/products/spinach.jpg';
+import broccoliImg from '@/assets/products/broccoli.jpg';
+import cauliflowerImg from '@/assets/products/cauliflower.jpg';
+import orangesImg from '@/assets/products/oranges.jpg';
+import riceImg from '@/assets/products/rice.jpg';
+import dalImg from '@/assets/products/dal.jpg';
+import oilImg from '@/assets/products/oil.jpg';
+
+// Function to get relevant image based on product name
+const getProductImage = (productName: string, category: string): string => {
+  const name = productName.toLowerCase();
+  
+  // Specific product matches
+  if (name.includes('banana')) return bananasImg;
+  if (name.includes('apple')) return applesImg;
+  if (name.includes('milk')) return milkImg;
+  if (name.includes('bread')) return breadImg;
+  if (name.includes('tomato')) return tomatoesImg;
+  if (name.includes('carrot')) return carrotsImg;
+  if (name.includes('drumstick')) return drumstickImg;
+  if (name.includes('onion')) return onionsImg;
+  if (name.includes('potato')) return potatoesImg;
+  if (name.includes('spinach')) return spinachImg;
+  if (name.includes('broccoli')) return broccoliImg;
+  if (name.includes('cauliflower')) return cauliflowerImg;
+  if (name.includes('orange')) return orangesImg;
+  if (name.includes('rice')) return riceImg;
+  if (name.includes('dal') || name.includes('lentil')) return dalImg;
+  if (name.includes('oil')) return oilImg;
+  
+  // Category-based fallbacks
+  if (category === 'fruits-vegetables') return groceriesImg;
+  if (category === 'meat-seafood') return meatImg;
+  if (category === 'personal-care') return personalCareImg;
+  if (category === 'household') return householdImg;
+  if (category === 'snacks') return snacksImg;
+  
+  // Default fallback
+  return groceriesImg;
+};
 
 export interface Product {
   id: string;
@@ -63,7 +106,7 @@ const generateProducts = (): Product[] => {
       name,
       price: Math.floor(Math.random() * 150) + 20,
       originalPrice: Math.floor(Math.random() * 200) + 50,
-      image: isVegetable ? (index % 2 === 0 ? tomatoesImg : carrotsImg) : (index % 2 === 0 ? applesImg : bananasImg),
+      image: getProductImage(name, 'fruits-vegetables'),
       category: 'fruits-vegetables',
       subCategory: isVegetable ? 'vegetables' : 'fruits',
       unit: Math.random() > 0.5 ? '500g' : '1 kg',
@@ -94,7 +137,7 @@ const generateProducts = (): Product[] => {
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 200) + 30,
-      image: milkImg,
+      image: getProductImage(name, 'dairy-eggs'),
       category: 'dairy-eggs',
       unit: ['200ml', '500ml', '1L', '250g', '500g', '12 pieces'][Math.floor(Math.random() * 6)],
       rating: 4.2 + Math.random() * 0.8,
@@ -121,7 +164,7 @@ const generateProducts = (): Product[] => {
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 150) + 25,
-      image: breadImg,
+      image: getProductImage(name, 'bakery'),
       category: 'bakery',
       unit: ['1 piece', '6 pieces', '12 pieces', '500g', '1 kg'][Math.floor(Math.random() * 5)],
       rating: 4.1 + Math.random() * 0.9,
@@ -146,7 +189,7 @@ const generateProducts = (): Product[] => {
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 400) + 150,
-      image: meatImg,
+      image: getProductImage(name, 'meat-seafood'),
       category: 'meat-seafood',
       unit: ['500g', '1 kg', '250g'][Math.floor(Math.random() * 3)],
       rating: 4.3 + Math.random() * 0.7,
@@ -176,7 +219,7 @@ const generateProducts = (): Product[] => {
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 300) + 50,
-      image: personalCareImg,
+      image: getProductImage(name, 'personal-care'),
       category: 'personal-care',
       unit: ['100ml', '200ml', '500ml', '1 piece', '50g', '100g'][Math.floor(Math.random() * 6)],
       rating: 4.0 + Math.random() * 1.0,
@@ -206,7 +249,7 @@ const generateProducts = (): Product[] => {
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 250) + 40,
-      image: householdImg,
+      image: getProductImage(name, 'household'),
       category: 'household',
       unit: ['1 piece', '500ml', '1L', '2L', '250g', '500g'][Math.floor(Math.random() * 6)],
       rating: 4.1 + Math.random() * 0.9,
@@ -241,7 +284,7 @@ const generateProducts = (): Product[] => {
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 200) + 25,
-      image: snacksImg,
+      image: getProductImage(name, 'snacks-beverages'),
       category: 'snacks-beverages',
       unit: ['100g', '200g', '500g', '1L', '330ml', '500ml', '1 piece'][Math.floor(Math.random() * 7)],
       rating: 4.0 + Math.random() * 1.0,
