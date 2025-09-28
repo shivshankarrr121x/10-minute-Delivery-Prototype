@@ -28,289 +28,263 @@ export interface Product {
   brand?: string;
 }
 
-// Generate comprehensive product database with 500+ items
+// Comprehensive product database with 500+ unique items
 const generateProducts = (): Product[] => {
   const products: Product[] = [];
   let idCounter = 1;
 
-  // Fruits & Vegetables (80 items)
-  const fruitsVegetables = [
-    // Fruits
-    { name: 'Fresh Organic Bananas', price: 45, originalPrice: 55, image: bananasImg, unit: '1 kg', discount: 18, rating: 4.5, brand: 'Organic Farm' },
-    { name: 'Red Delicious Apples', price: 120, originalPrice: 140, image: applesImg, unit: '1 kg', discount: 14, rating: 4.7, brand: 'Fresh Valley' },
-    { name: 'Green Grapes', price: 85, image: applesImg, unit: '500g', rating: 4.4, brand: 'Nature Fresh' },
-    { name: 'Sweet Oranges', price: 65, image: applesImg, unit: '1 kg', rating: 4.3, brand: 'Citrus Gold' },
-    { name: 'Fresh Mangoes', price: 150, image: applesImg, unit: '1 kg', rating: 4.8, brand: 'Mango King' },
-    { name: 'Kiwi Fruit', price: 180, image: applesImg, unit: '500g', rating: 4.2, brand: 'Exotic Fruits' },
-    { name: 'Pomegranate', price: 220, image: applesImg, unit: '1 kg', rating: 4.6, brand: 'Ruby Red' },
-    { name: 'Papaya', price: 40, image: applesImg, unit: '1 piece', rating: 4.1, brand: 'Tropical Fresh' },
-    { name: 'Pineapple', price: 60, image: applesImg, unit: '1 piece', rating: 4.3, brand: 'Golden Pine' },
-    { name: 'Watermelon', price: 25, image: applesImg, unit: '1 kg', rating: 4.2, brand: 'Summer Fresh' },
-    
-    // Vegetables
-    { name: 'Fresh Red Tomatoes', price: 38, originalPrice: 45, image: tomatoesImg, unit: '500g', discount: 15, rating: 4.4, brand: 'Garden Fresh' },
-    { name: 'Orange Carrots', price: 42, image: carrotsImg, unit: '500g', rating: 4.2, brand: 'Root Valley' },
-    { name: 'Fresh Spinach', price: 28, image: carrotsImg, unit: '250g', rating: 4.1, brand: 'Green Leaf' },
-    { name: 'Broccoli', price: 75, image: carrotsImg, unit: '500g', rating: 4.3, brand: 'Healthy Greens' },
-    { name: 'Cauliflower', price: 45, image: carrotsImg, unit: '1 piece', rating: 4.0, brand: 'White Gold' },
-    { name: 'Bell Peppers', price: 85, image: tomatoesImg, unit: '500g', rating: 4.4, brand: 'Colorful Harvest' },
-    { name: 'Cucumber', price: 35, image: carrotsImg, unit: '500g', rating: 4.2, brand: 'Cool Crisp' },
-    { name: 'Green Beans', price: 55, image: carrotsImg, unit: '500g', rating: 4.1, brand: 'String Fresh' },
-    { name: 'Potatoes', price: 25, image: carrotsImg, unit: '1 kg', rating: 4.3, brand: 'Russet Gold' },
-    { name: 'Onions', price: 30, image: carrotsImg, unit: '1 kg', rating: 4.2, brand: 'Tear Drop' },
+  // Fruits & Vegetables (100 items)
+  const fruits = [
+    'Fresh Organic Bananas', 'Red Delicious Apples', 'Green Grapes', 'Sweet Oranges', 'Alphonso Mangoes',
+    'Kiwi Fruit', 'Pomegranate', 'Papaya', 'Pineapple', 'Watermelon', 'Muskmelon', 'Dragon Fruit',
+    'Passion Fruit', 'Avocado', 'Blueberries', 'Strawberries', 'Blackberries', 'Raspberries',
+    'Cherries', 'Plums', 'Peaches', 'Apricots', 'Guava', 'Custard Apple', 'Jamun',
+    'Lychee', 'Rambutan', 'Star Fruit', 'Fig', 'Dates', 'Coconut', 'Lemon', 'Lime',
+    'Grapefruit', 'Tangerine', 'Sweet Lime', 'Jackfruit', 'Wood Apple', 'Sapota', 'Pears'
   ];
 
-  // Add more fruits and vegetables to reach 80 items
-  const additionalFruitsVegs = Array.from({ length: 60 }, (_, i) => ({
-    name: `Fresh Item ${i + 21}`,
-    price: Math.floor(Math.random() * 100) + 20,
-    image: Math.random() > 0.5 ? tomatoesImg : carrotsImg,
-    unit: Math.random() > 0.5 ? '500g' : '1 kg',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Premium Fresh'
-  }));
+  const vegetables = [
+    'Fresh Red Tomatoes', 'Orange Carrots', 'Fresh Spinach', 'Broccoli', 'Cauliflower',
+    'Bell Peppers', 'Cucumber', 'Green Beans', 'Potatoes', 'Onions', 'Garlic', 'Ginger',
+    'Green Chili', 'Red Chili', 'Capsicum', 'Cabbage', 'Lettuce', 'Celery', 'Radish',
+    'Beetroot', 'Turnip', 'Sweet Potato', 'Yam', 'Bottle Gourd', 'Ridge Gourd', 'Bitter Gourd',
+    'Snake Gourd', 'Ash Gourd', 'Pumpkin', 'Okra', 'Eggplant', 'Zucchini', 'Corn',
+    'Green Peas', 'Drumstick', 'Mint Leaves', 'Coriander Leaves', 'Curry Leaves', 'Fenugreek Leaves',
+    'Mushrooms', 'Artichoke', 'Asparagus', 'Brussels Sprouts', 'Kale', 'Swiss Chard',
+    'Bok Choy', 'Leeks', 'Shallots', 'Spring Onions', 'Red Onions', 'White Onions',
+    'Purple Cabbage', 'Red Cabbage', 'Chinese Cabbage', 'Parsley', 'Basil', 'Rosemary',
+    'Thyme', 'Oregano', 'Sage'
+  ];
 
-  fruitsVegetables.push(...additionalFruitsVegs);
-
-  fruitsVegetables.forEach((item, index) => {
+  [...fruits, ...vegetables].forEach((name, index) => {
+    const isVegetable = index >= fruits.length;
     products.push({
       id: (idCounter++).toString(),
+      name,
+      price: Math.floor(Math.random() * 150) + 20,
+      originalPrice: Math.floor(Math.random() * 200) + 50,
+      image: isVegetable ? (index % 2 === 0 ? tomatoesImg : carrotsImg) : (index % 2 === 0 ? applesImg : bananasImg),
       category: 'fruits-vegetables',
-      subCategory: index < 10 ? 'fruits' : 'vegetables',
+      subCategory: isVegetable ? 'vegetables' : 'fruits',
+      unit: Math.random() > 0.5 ? '500g' : '1 kg',
+      discount: Math.floor(Math.random() * 25) + 5,
+      rating: 4.0 + Math.random() * 1.0,
       deliveryTime: '8 min',
       inStock: true,
-      description: `Fresh and organic ${item.name.toLowerCase()}`,
-      ...item
+      description: `Fresh and organic ${name.toLowerCase()}`,
+      brand: ['Organic Farm', 'Fresh Valley', 'Nature Fresh', 'Garden Fresh'][Math.floor(Math.random() * 4)]
     });
   });
 
-  // Dairy & Eggs (40 items)
-  const dairyEggs = [
-    { name: 'Fresh Whole Milk', price: 65, image: milkImg, unit: '1 L', rating: 4.6, brand: 'Pure Dairy' },
-    { name: 'Greek Yogurt', price: 85, image: milkImg, unit: '200g', rating: 4.8, brand: 'Creamy Delight' },
-    { name: 'Cheese Slices', price: 95, image: milkImg, unit: '200g', rating: 4.5, brand: 'Dairy Gold' },
-    { name: 'Fresh Eggs', price: 120, image: milkImg, unit: '12 pieces', rating: 4.7, brand: 'Farm Fresh' },
-    { name: 'Butter', price: 180, image: milkImg, unit: '500g', rating: 4.4, brand: 'Golden Churn' },
-    { name: 'Paneer', price: 220, image: milkImg, unit: '500g', rating: 4.6, brand: 'Fresh Cottage' },
-    { name: 'Lassi', price: 45, image: milkImg, unit: '200ml', rating: 4.3, brand: 'Traditional Taste' },
-    { name: 'Ice Cream', price: 150, image: milkImg, unit: '500ml', rating: 4.8, brand: 'Frozen Treats' },
+  // Dairy & Eggs (50 items)
+  const dairyProducts = [
+    'Fresh Whole Milk', 'Toned Milk', 'Double Toned Milk', 'Full Cream Milk', 'Skimmed Milk',
+    'Greek Yogurt', 'Plain Yogurt', 'Flavored Yogurt', 'Lassi', 'Buttermilk', 'Cheese Slices',
+    'Mozzarella Cheese', 'Cheddar Cheese', 'Parmesan Cheese', 'Cream Cheese', 'Cottage Cheese',
+    'Paneer', 'Fresh Eggs', 'Brown Eggs', 'Organic Eggs', 'Quail Eggs', 'Butter', 'Ghee',
+    'Fresh Cream', 'Whipping Cream', 'Sour Cream', 'Ice Cream Vanilla', 'Ice Cream Chocolate',
+    'Ice Cream Strawberry', 'Frozen Yogurt', 'Milk Powder', 'Condensed Milk', 'Evaporated Milk',
+    'Coconut Milk', 'Almond Milk', 'Soy Milk', 'Oat Milk', 'Rice Milk', 'Custard', 'Pudding',
+    'Cheese Spread', 'Butter Milk', 'Flavored Milk', 'Protein Milk', 'Lactose Free Milk',
+    'Organic Milk', 'Buffalo Milk', 'Goat Milk', 'Camel Milk', 'Kefir'
   ];
 
-  // Add more dairy items
-  const additionalDairy = Array.from({ length: 32 }, (_, i) => ({
-    name: `Dairy Product ${i + 9}`,
-    price: Math.floor(Math.random() * 200) + 40,
-    image: milkImg,
-    unit: Math.random() > 0.5 ? '500g' : '1 L',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Fresh Dairy'
-  }));
-
-  dairyEggs.push(...additionalDairy);
-
-  dairyEggs.forEach((item) => {
+  dairyProducts.forEach((name, index) => {
     products.push({
       id: (idCounter++).toString(),
-      category: 'dairy',
-      deliveryTime: '5 min',
-      inStock: true,
-      description: `Fresh dairy product - ${item.name.toLowerCase()}`,
-      ...item
-    });
-  });
-
-  // Bakery & Bread (30 items)
-  const bakery = [
-    { name: 'Whole Wheat Bread', price: 35, originalPrice: 40, image: breadImg, unit: '400g', discount: 12, rating: 4.3, brand: 'Baker\'s Choice' },
-    { name: 'White Bread', price: 30, image: breadImg, unit: '400g', rating: 4.1, brand: 'Soft Touch' },
-    { name: 'Multigrain Bread', price: 45, image: breadImg, unit: '400g', rating: 4.4, brand: 'Healthy Grains' },
-    { name: 'Croissant', price: 25, image: breadImg, unit: '1 piece', rating: 4.5, brand: 'French Bakery' },
-    { name: 'Biscuits', price: 65, image: breadImg, unit: '500g', rating: 4.2, brand: 'Crispy Bites' },
-  ];
-
-  // Add more bakery items
-  const additionalBakery = Array.from({ length: 25 }, (_, i) => ({
-    name: `Bakery Item ${i + 6}`,
-    price: Math.floor(Math.random() * 80) + 20,
-    image: breadImg,
-    unit: Math.random() > 0.5 ? '400g' : '1 piece',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Fresh Bakery'
-  }));
-
-  bakery.push(...additionalBakery);
-
-  bakery.forEach((item) => {
-    products.push({
-      id: (idCounter++).toString(),
-      category: 'bakery',
-      deliveryTime: '12 min',
-      inStock: true,
-      description: `Fresh baked ${item.name.toLowerCase()}`,
-      ...item
-    });
-  });
-
-  // Meat & Seafood (50 items)
-  const meatSeafood = [
-    { name: 'Chicken Breast', price: 280, image: meatImg, unit: '1 kg', rating: 4.5, brand: 'Fresh Poultry' },
-    { name: 'Mutton Curry Cut', price: 650, image: meatImg, unit: '1 kg', rating: 4.6, brand: 'Premium Meat' },
-    { name: 'Fish Fillet', price: 420, image: meatImg, unit: '500g', rating: 4.4, brand: 'Ocean Fresh' },
-    { name: 'Prawns', price: 380, image: meatImg, unit: '500g', rating: 4.7, brand: 'Sea Delight' },
-    { name: 'Eggs', price: 120, image: meatImg, unit: '12 pieces', rating: 4.3, brand: 'Farm Fresh' },
-  ];
-
-  // Add more meat and seafood items
-  const additionalMeat = Array.from({ length: 45 }, (_, i) => ({
-    name: `Meat Product ${i + 6}`,
-    price: Math.floor(Math.random() * 500) + 150,
-    image: meatImg,
-    unit: Math.random() > 0.5 ? '500g' : '1 kg',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Quality Meat'
-  }));
-
-  meatSeafood.push(...additionalMeat);
-
-  meatSeafood.forEach((item) => {
-    products.push({
-      id: (idCounter++).toString(),
-      category: 'meat-seafood',
-      deliveryTime: '15 min',
-      inStock: true,
-      description: `Fresh ${item.name.toLowerCase()}`,
-      ...item
-    });
-  });
-
-  // Snacks & Beverages (80 items)
-  const snacksBeverages = [
-    { name: 'Potato Chips', price: 45, image: snacksImg, unit: '200g', rating: 4.2, brand: 'Crispy Crunch' },
-    { name: 'Coca Cola', price: 40, image: snacksImg, unit: '600ml', rating: 4.4, brand: 'Coca Cola' },
-    { name: 'Orange Juice', price: 85, image: snacksImg, unit: '1 L', rating: 4.3, brand: 'Fresh Squeeze' },
-    { name: 'Cookies', price: 65, image: snacksImg, unit: '300g', rating: 4.1, brand: 'Sweet Treats' },
-    { name: 'Energy Drink', price: 120, image: snacksImg, unit: '250ml', rating: 4.0, brand: 'Power Up' },
-  ];
-
-  // Add more snacks and beverages
-  const additionalSnacks = Array.from({ length: 75 }, (_, i) => ({
-    name: `Snack Item ${i + 6}`,
-    price: Math.floor(Math.random() * 150) + 25,
-    image: snacksImg,
-    unit: Math.random() > 0.5 ? '200g' : '500ml',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Tasty Treats'
-  }));
-
-  snacksBeverages.push(...additionalSnacks);
-
-  snacksBeverages.forEach((item) => {
-    products.push({
-      id: (idCounter++).toString(),
-      category: 'snacks-beverages',
+      name,
+      price: Math.floor(Math.random() * 200) + 30,
+      image: milkImg,
+      category: 'dairy-eggs',
+      unit: ['200ml', '500ml', '1L', '250g', '500g', '12 pieces'][Math.floor(Math.random() * 6)],
+      rating: 4.2 + Math.random() * 0.8,
       deliveryTime: '10 min',
       inStock: true,
-      description: `Delicious ${item.name.toLowerCase()}`,
-      ...item
+      description: `Premium quality ${name.toLowerCase()}`,
+      brand: ['Pure Dairy', 'Creamy Delight', 'Dairy Gold', 'Farm Fresh'][Math.floor(Math.random() * 4)]
+    });
+  });
+
+  // Bakery & Bread (40 items)
+  const bakeryProducts = [
+    'White Bread', 'Brown Bread', 'Whole Wheat Bread', 'Multigrain Bread', 'Sourdough Bread',
+    'Rye Bread', 'Oat Bread', 'Gluten Free Bread', 'Dinner Rolls', 'Burger Buns', 'Hot Dog Buns',
+    'Croissants', 'Danish Pastry', 'Muffins Blueberry', 'Muffins Chocolate', 'Cupcakes',
+    'Donuts Glazed', 'Donuts Chocolate', 'Bagels', 'English Muffins', 'Pita Bread', 'Naan Bread',
+    'Garlic Bread', 'Focaccia', 'Baguette', 'Ciabatta', 'Pretzel', 'Cookies Chocolate Chip',
+    'Cookies Oatmeal', 'Cookies Sugar', 'Crackers', 'Breadsticks', 'Pizza Base', 'Cake Vanilla',
+    'Cake Chocolate', 'Cake Red Velvet', 'Cheesecake', 'Pie Apple', 'Pie Pumpkin', 'Tart'
+  ];
+
+  bakeryProducts.forEach((name, index) => {
+    products.push({
+      id: (idCounter++).toString(),
+      name,
+      price: Math.floor(Math.random() * 150) + 25,
+      image: breadImg,
+      category: 'bakery',
+      unit: ['1 piece', '6 pieces', '12 pieces', '500g', '1 kg'][Math.floor(Math.random() * 5)],
+      rating: 4.1 + Math.random() * 0.9,
+      deliveryTime: '12 min',
+      inStock: Math.random() > 0.1,
+      description: `Freshly baked ${name.toLowerCase()}`,
+      brand: ['Baker\'s Delight', 'Fresh Bake', 'Golden Crust', 'Artisan Bakery'][Math.floor(Math.random() * 4)]
+    });
+  });
+
+  // Meat & Seafood (30 items)
+  const meatProducts = [
+    'Chicken Breast', 'Chicken Thighs', 'Chicken Wings', 'Chicken Drumsticks', 'Whole Chicken',
+    'Chicken Mince', 'Mutton Curry Cut', 'Mutton Biryani Cut', 'Goat Liver', 'Goat Kidney',
+    'Beef Steak', 'Beef Mince', 'Beef Roast', 'Pork Chops', 'Pork Belly', 'Bacon',
+    'Sausages', 'Salami', 'Ham', 'Turkey Breast', 'Duck', 'Quail', 'Fish Pomfret',
+    'Fish Kingfish', 'Fish Tuna', 'Prawns Large', 'Prawns Medium', 'Crab', 'Lobster', 'Squid'
+  ];
+
+  meatProducts.forEach((name, index) => {
+    products.push({
+      id: (idCounter++).toString(),
+      name,
+      price: Math.floor(Math.random() * 400) + 150,
+      image: meatImg,
+      category: 'meat-seafood',
+      unit: ['500g', '1 kg', '250g'][Math.floor(Math.random() * 3)],
+      rating: 4.3 + Math.random() * 0.7,
+      deliveryTime: '15 min',
+      inStock: true,
+      description: `Fresh ${name.toLowerCase()}`,
+      brand: ['Fresh Meat Co', 'Ocean Fresh', 'Premium Cuts', 'Halal Choice'][Math.floor(Math.random() * 4)]
     });
   });
 
   // Personal Care (60 items)
-  const personalCare = [
-    { name: 'Shampoo', price: 180, image: personalCareImg, unit: '400ml', rating: 4.3, brand: 'Hair Care Pro' },
-    { name: 'Toothpaste', price: 85, image: personalCareImg, unit: '200g', rating: 4.5, brand: 'Fresh Smile' },
-    { name: 'Soap', price: 45, image: personalCareImg, unit: '125g', rating: 4.2, brand: 'Gentle Touch' },
-    { name: 'Face Wash', price: 150, image: personalCareImg, unit: '150ml', rating: 4.4, brand: 'Clear Skin' },
-    { name: 'Deodorant', price: 120, image: personalCareImg, unit: '150ml', rating: 4.1, brand: 'All Day Fresh' },
+  const personalCareProducts = [
+    'Shampoo Anti-Dandruff', 'Shampoo Dry Hair', 'Shampoo Oily Hair', 'Conditioner', 'Hair Oil',
+    'Hair Mask', 'Hair Serum', 'Body Wash', 'Face Wash', 'Face Cream', 'Body Lotion',
+    'Hand Cream', 'Sunscreen SPF 30', 'Sunscreen SPF 50', 'Moisturizer', 'Night Cream',
+    'Eye Cream', 'Face Mask', 'Scrub Face', 'Scrub Body', 'Soap Bar', 'Liquid Soap',
+    'Toothpaste', 'Toothbrush', 'Mouthwash', 'Dental Floss', 'Deodorant Spray', 'Deodorant Roll-on',
+    'Perfume Men', 'Perfume Women', 'Body Spray', 'Talcum Powder', 'Baby Powder', 'Baby Oil',
+    'Baby Shampoo', 'Baby Soap', 'Diapers Small', 'Diapers Medium', 'Diapers Large', 'Baby Wipes',
+    'Razor', 'Shaving Cream', 'After Shave', 'Hair Gel', 'Hair Wax', 'Hair Spray', 'Lip Balm',
+    'Hand Sanitizer', 'Tissues', 'Cotton Pads', 'Cotton Swabs', 'Nail Polish', 'Nail Remover',
+    'Makeup Remover', 'Foundation', 'Lipstick', 'Mascara', 'Eyeliner', 'Kajal', 'Face Powder'
   ];
 
-  // Add more personal care items
-  const additionalPersonalCare = Array.from({ length: 55 }, (_, i) => ({
-    name: `Personal Care ${i + 6}`,
-    price: Math.floor(Math.random() * 200) + 40,
-    image: personalCareImg,
-    unit: Math.random() > 0.5 ? '200ml' : '150g',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Care Plus'
-  }));
-
-  personalCare.push(...additionalPersonalCare);
-
-  personalCare.forEach((item) => {
+  personalCareProducts.forEach((name, index) => {
     products.push({
       id: (idCounter++).toString(),
+      name,
+      price: Math.floor(Math.random() * 300) + 50,
+      image: personalCareImg,
       category: 'personal-care',
-      deliveryTime: '12 min',
+      unit: ['100ml', '200ml', '500ml', '1 piece', '50g', '100g'][Math.floor(Math.random() * 6)],
+      rating: 4.0 + Math.random() * 1.0,
+      deliveryTime: '10 min',
       inStock: true,
-      description: `Quality ${item.name.toLowerCase()} for daily use`,
-      ...item
+      description: `Premium ${name.toLowerCase()}`,
+      brand: ['Beauty Plus', 'Glow Bright', 'Pure Care', 'Natural Essence'][Math.floor(Math.random() * 4)]
     });
   });
 
   // Household Items (50 items)
-  const household = [
-    { name: 'Detergent Powder', price: 180, image: householdImg, unit: '1 kg', rating: 4.3, brand: 'Clean Master' },
-    { name: 'Dish Wash', price: 95, image: householdImg, unit: '500ml', rating: 4.4, brand: 'Sparkle Clean' },
-    { name: 'Floor Cleaner', price: 120, image: householdImg, unit: '1 L', rating: 4.2, brand: 'Floor Shine' },
-    { name: 'Toilet Paper', price: 140, image: householdImg, unit: '4 rolls', rating: 4.1, brand: 'Soft Touch' },
-    { name: 'Air Freshener', price: 85, image: householdImg, unit: '300ml', rating: 4.0, brand: 'Fresh Air' },
+  const householdProducts = [
+    'Detergent Powder', 'Liquid Detergent', 'Fabric Softener', 'Bleach', 'Toilet Paper',
+    'Kitchen Towels', 'Tissues Box', 'Garbage Bags', 'Aluminum Foil', 'Plastic Wrap',
+    'Dishwashing Liquid', 'Dishwasher Tablets', 'All Purpose Cleaner', 'Glass Cleaner',
+    'Bathroom Cleaner', 'Floor Cleaner', 'Furniture Polish', 'Air Freshener', 'Candles',
+    'Matches', 'Lighter', 'Batteries AA', 'Batteries AAA', 'Light Bulbs LED', 'CFL Bulbs',
+    'Extension Cord', 'Power Strip', 'Cleaning Cloths', 'Sponges', 'Scrub Brush',
+    'Broom', 'Mop', 'Bucket', 'Dustpan', 'Vacuum Bags', 'Trash Can', 'Storage Boxes',
+    'Hangers', 'Laundry Basket', 'Iron', 'Ironing Board Cover', 'Shoe Polish', 'Insect Spray',
+    'Moth Balls', 'Room Spray', 'Toilet Cleaner', 'Drain Cleaner', 'Oven Cleaner',
+    'Stainless Steel Cleaner', 'Wood Cleaner'
   ];
 
-  // Add more household items
-  const additionalHousehold = Array.from({ length: 45 }, (_, i) => ({
-    name: `Household Item ${i + 6}`,
-    price: Math.floor(Math.random() * 250) + 50,
-    image: householdImg,
-    unit: Math.random() > 0.5 ? '1 L' : '500g',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Home Care'
-  }));
-
-  household.push(...additionalHousehold);
-
-  household.forEach((item) => {
+  householdProducts.forEach((name, index) => {
     products.push({
       id: (idCounter++).toString(),
+      name,
+      price: Math.floor(Math.random() * 250) + 40,
+      image: householdImg,
       category: 'household',
-      deliveryTime: '15 min',
+      unit: ['1 piece', '500ml', '1L', '2L', '250g', '500g'][Math.floor(Math.random() * 6)],
+      rating: 4.1 + Math.random() * 0.9,
+      deliveryTime: '12 min',
       inStock: true,
-      description: `Essential ${item.name.toLowerCase()} for your home`,
-      ...item
+      description: `Quality ${name.toLowerCase()}`,
+      brand: ['Clean Master', 'Sparkle Bright', 'Home Care', 'Fresh Clean'][Math.floor(Math.random() * 4)]
     });
   });
 
-  // Groceries & Staples (100 items)
-  const groceries = [
-    { name: 'Basmati Rice', price: 120, image: groceriesImg, unit: '1 kg', rating: 4.5, brand: 'Royal Grain' },
-    { name: 'Wheat Flour', price: 85, image: groceriesImg, unit: '1 kg', rating: 4.3, brand: 'Golden Harvest' },
-    { name: 'Cooking Oil', price: 180, image: groceriesImg, unit: '1 L', rating: 4.4, brand: 'Pure Gold' },
-    { name: 'Sugar', price: 45, image: groceriesImg, unit: '1 kg', rating: 4.2, brand: 'Sweet Crystal' },
-    { name: 'Salt', price: 25, image: groceriesImg, unit: '1 kg', rating: 4.6, brand: 'Pure Salt' },
-    { name: 'Dal (Lentils)', price: 95, image: groceriesImg, unit: '500g', rating: 4.4, brand: 'Protein Rich' },
-    { name: 'Turmeric Powder', price: 65, image: groceriesImg, unit: '200g', rating: 4.3, brand: 'Spice King' },
-    { name: 'Red Chili Powder', price: 75, image: groceriesImg, unit: '200g', rating: 4.2, brand: 'Hot Spice' },
+  // Snacks & Beverages (80 items)
+  const snacksProducts = [
+    'Potato Chips Classic', 'Potato Chips Barbecue', 'Potato Chips Sour Cream', 'Corn Chips',
+    'Tortilla Chips', 'Pretzels', 'Popcorn Butter', 'Popcorn Cheese', 'Nuts Mixed', 'Almonds',
+    'Cashews', 'Pistachios', 'Walnuts', 'Peanuts', 'Raisins', 'Dried Fruits Mix',
+    'Chocolate Bar Dark', 'Chocolate Bar Milk', 'Chocolate Bar White', 'Candy Gummy Bears',
+    'Candy Hard', 'Lollipops', 'Chewing Gum', 'Mints', 'Cookies Digestive', 'Cookies Cream',
+    'Biscuits Tea', 'Crackers Salted', 'Crackers Cheese', 'Wafers', 'Cake Bars', 'Protein Bars',
+    'Granola Bars', 'Trail Mix', 'Beef Jerky', 'Fruit Leather', 'Rice Cakes', 'Corn Cakes',
+    'Instant Noodles', 'Cup Noodles', 'Pasta Sauce', 'Pizza Sauce', 'Ketchup', 'Mustard',
+    'Mayonnaise', 'Hot Sauce', 'Soy Sauce', 'Vinegar', 'Olive Oil', 'Vegetable Oil',
+    'Coconut Oil', 'Sunflower Oil', 'Sesame Oil', 'Salt', 'Black Pepper', 'Red Chili Powder',
+    'Turmeric Powder', 'Coriander Powder', 'Cumin Powder', 'Garam Masala', 'Tea Bags',
+    'Coffee Instant', 'Coffee Beans', 'Green Tea', 'Herbal Tea', 'Energy Drink', 'Soft Drink Cola',
+    'Soft Drink Orange', 'Soft Drink Lemon', 'Juice Apple', 'Juice Orange', 'Juice Mango',
+    'Juice Grape', 'Sports Drink', 'Coconut Water', 'Sparkling Water', 'Mineral Water',
+    'Drinking Water', 'Ice Cubes', 'Wine Red', 'Wine White', 'Beer', 'Whiskey', 'Vodka', 'Rum'
   ];
 
-  // Add more grocery items
-  const additionalGroceries = Array.from({ length: 92 }, (_, i) => ({
-    name: `Grocery Item ${i + 9}`,
-    price: Math.floor(Math.random() * 200) + 30,
-    image: groceriesImg,
-    unit: Math.random() > 0.5 ? '1 kg' : '500g',
-    rating: 4.0 + Math.random() * 0.8,
-    brand: 'Quality Goods'
-  }));
-
-  groceries.push(...additionalGroceries);
-
-  groceries.forEach((item) => {
+  snacksProducts.forEach((name, index) => {
     products.push({
       id: (idCounter++).toString(),
+      name,
+      price: Math.floor(Math.random() * 200) + 25,
+      image: snacksImg,
+      category: 'snacks-beverages',
+      unit: ['100g', '200g', '500g', '1L', '330ml', '500ml', '1 piece'][Math.floor(Math.random() * 7)],
+      rating: 4.0 + Math.random() * 1.0,
+      deliveryTime: '8 min',
+      inStock: true,
+      description: `Delicious ${name.toLowerCase()}`,
+      brand: ['Snack Master', 'Crispy Bites', 'Tasty Treats', 'Fresh Sips'][Math.floor(Math.random() * 4)]
+    });
+  });
+
+  // Groceries & Staples (90 items)
+  const groceryProducts = [
+    'Basmati Rice', 'Jasmine Rice', 'Brown Rice', 'Wild Rice', 'Quinoa', 'Wheat Flour', 'All Purpose Flour',
+    'Whole Wheat Flour', 'Rice Flour', 'Corn Flour', 'Besan Flour', 'Oats Rolled', 'Oats Steel Cut',
+    'Barley', 'Millet', 'Bulgur Wheat', 'Couscous', 'Pasta Penne', 'Pasta Spaghetti', 'Pasta Fusilli',
+    'Noodles Egg', 'Noodles Rice', 'Lentils Red', 'Lentils Green', 'Lentils Yellow', 'Black Beans',
+    'Kidney Beans', 'Chickpeas', 'Green Peas Dried', 'Black Eyed Peas', 'Sugar White', 'Sugar Brown',
+    'Jaggery', 'Honey', 'Maple Syrup', 'Corn Syrup', 'Vanilla Extract', 'Baking Powder', 'Baking Soda',
+    'Yeast', 'Gelatin', 'Cornstarch', 'Tapioca Starch', 'Coconut Flakes', 'Sesame Seeds', 'Pumpkin Seeds',
+    'Sunflower Seeds', 'Chia Seeds', 'Flax Seeds', 'Poppy Seeds', 'Mustard Seeds', 'Cumin Seeds',
+    'Coriander Seeds', 'Fennel Seeds', 'Cardamom', 'Cinnamon Sticks', 'Bay Leaves', 'Cloves',
+    'Nutmeg', 'Star Anise', 'Black Peppercorns', 'White Peppercorns', 'Dried Red Chilies',
+    'Paprika', 'Oregano Dried', 'Basil Dried', 'Thyme Dried', 'Rosemary Dried', 'Sage Dried',
+    'Mint Dried', 'Parsley Dried', 'Dill Dried', 'Tarragon', 'Marjoram', 'Stock Vegetable',
+    'Stock Chicken', 'Stock Beef', 'Tomato Puree', 'Tomato Paste', 'Coconut Milk Canned',
+    'Evaporated Milk', 'Condensed Milk', 'Cream of Tartar', 'Food Coloring', 'Sprinkles',
+    'Chocolate Chips', 'Cocoa Powder', 'Powdered Sugar', 'Cake Mix', 'Frosting', 'Pie Filling',
+    'Jam Strawberry', 'Jam Mixed Fruit', 'Peanut Butter', 'Almond Butter', 'Nutella'
+  ];
+
+  groceryProducts.forEach((name, index) => {
+    products.push({
+      id: (idCounter++).toString(),
+      name,
+      price: Math.floor(Math.random() * 300) + 30,
+      image: groceriesImg,
       category: 'groceries',
+      unit: ['500g', '1 kg', '2 kg', '250g', '100g'][Math.floor(Math.random() * 5)],
+      rating: 4.2 + Math.random() * 0.8,
       deliveryTime: '10 min',
       inStock: true,
-      description: `Premium quality ${item.name.toLowerCase()}`,
-      ...item
+      description: `Premium quality ${name.toLowerCase()}`,
+      brand: ['Best Quality', 'Farm Select', 'Organic Plus', 'Traditional'][Math.floor(Math.random() * 4)]
     });
   });
 
@@ -318,14 +292,3 @@ const generateProducts = (): Product[] => {
 };
 
 export const expandedProducts = generateProducts();
-export const categories = [
-  { id: 'all', name: 'All', icon: '🛒' },
-  { id: 'fruits-vegetables', name: 'Fruits & Vegetables', icon: '🥕' },
-  { id: 'dairy', name: 'Dairy & Eggs', icon: '🥛' },
-  { id: 'bakery', name: 'Bakery', icon: '🍞' },
-  { id: 'meat-seafood', name: 'Meat & Seafood', icon: '🍖' },
-  { id: 'snacks-beverages', name: 'Snacks & Beverages', icon: '🍿' },
-  { id: 'personal-care', name: 'Personal Care', icon: '🧴' },
-  { id: 'household', name: 'Household', icon: '🧽' },
-  { id: 'groceries', name: 'Groceries & Staples', icon: '🌾' },
-];

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { X, Plus, Minus, ShoppingBag, Receipt } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
-import { BillPrint } from './BillPrint';
-import { CustomerDetailsForm, CustomerDetails } from './CustomerDetailsForm';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,9 +11,12 @@ interface CartDrawerProps {
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const { items, total, updateQuantity, removeItem, clearCart } = useCart();
-  const [showBill, setShowBill] = useState(false);
-  const [showCustomerForm, setShowCustomerForm] = useState(false);
-  const [customerDetails, setCustomerDetails] = useState<CustomerDetails | null>(null);
+  const navigate = useNavigate();
+
+  const handleGenerateBill = () => {
+    onClose();
+    navigate('/bill');
+  };
 
   if (!isOpen) return null;
 
@@ -107,7 +109,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
               
               <div className="space-y-2">
                 <Button 
-                  onClick={() => setShowCustomerForm(true)}
+                  onClick={handleGenerateBill}
                   variant="outline" 
                   className="w-full gap-2 mb-2"
                 >
@@ -123,37 +125,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
           )}
         </div>
       </div>
-
-      {/* Customer Details Form */}
-      {showCustomerForm && (
-        <div className="fixed inset-0 bg-black/80 z-60 flex items-center justify-center p-4">
-          <div className="w-full max-w-lg">
-            <CustomerDetailsForm 
-              onSubmit={(details) => {
-                setCustomerDetails(details);
-                setShowCustomerForm(false);
-                setShowBill(true);
-              }}
-              onCancel={() => setShowCustomerForm(false)}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Bill Print Modal */}
-      {showBill && customerDetails && (
-        <div className="fixed inset-0 bg-black/80 z-60 flex items-center justify-center p-4">
-          <div className="w-full max-w-lg">
-            <BillPrint 
-              customerDetails={customerDetails}
-              onClose={() => {
-                setShowBill(false);
-                setCustomerDetails(null);
-              }} 
-            />
-          </div>
-        </div>
-      )}
     </>
   );
 };
