@@ -5,6 +5,7 @@ import { useCart } from '@/contexts/CartContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { CustomerDetails } from './CustomerDetailsForm';
+import jsPDF from 'jspdf';
 
 interface BillPrintProps {
   onClose: () => void;
@@ -25,17 +26,151 @@ export const BillPrint: React.FC<BillPrintProps> = ({ onClose, customerDetails }
   };
 
   const handleDownload = () => {
-    // Create a downloadable bill
-    const billContent = generateBillContent();
-    const blob = new Blob([billContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `QuickMart_Bill_${billNumber}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const pdf = new jsPDF();
+    const pageWidth = pdf.internal.pageSize.width;
+    let yPos = 20;
+
+    // Header
+    pdf.setFontSize(20);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('min10', pageWidth / 2, yPos, { align: 'center' });
+    
+    yPos += 8;
+    pdf.setFontSize(10);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text('📦 Express Delivery in 10 Minutes ⚡', pageWidth / 2, yPos, { align: 'center' });
+    
+    yPos += 15;
+    pdf.line(20, yPos, pageWidth - 20, yPos);
+    
+    yPos += 10;
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text(`Invoice No: ${billNumber}`, 20, yPos);
+    pdf.text(`Date: ${currentDate.toLocaleDateString('en-IN')}`, pageWidth - 80, yPos);
+    
+    yPos += 6;
+    pdf.text(`Time: ${currentDate.toLocaleTimeString('en-IN')}`, pageWidth - 80, yPos);
+    
+    yPos += 15;
+    
+    // Customer Details
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('CUSTOMER DETAILS:', 20, yPos);
+    yPos += 8;
+    
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+    pdf.text(`Name: ${customerDetails.name}`, 20, yPos);
+    yPos += 5;
+    pdf.text(`Email: ${customerDetails.email}`, 20, yPos);
+    yPos += 5;
+    pdf.text(`Mobile: +91-${customerDetails.mobile}`, 20, yPos);
+    yPos += 5;
+    pdf.text(`Address: ${customerDetails.address}`, 20, yPos);
+    yPos += 5;
+    
+    const paymentModeLabels = {
+      cod: 'Cash on Delivery',
+      upi: 'UPI Payment',
+      card: 'Credit/Debit Card',
+      wallet: 'Digital Wallet'
+    };
+    pdf.text(`Payment Mode: ${paymentModeLabels[customerDetails.paymentMode]}`, 20, yPos);
+    
+    yPos += 15;
+    pdf.line(20, yPos, pageWidth - 20, yPos);
+    yPos += 10;
+    
+    // Items
+    pdf.setFontSize(12);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('ITEMS PURCHASED:', 20, yPos);
+    yPos += 10;
+    
+    pdf.setFontSize(9);
+    pdf.setFont('helvetica', 'normal');
+    
+    items.forEach((item, index) => {
+      if (yPos > 250) {
+        pdf.addPage();
+        yPos = 20;
+      }
+      
+      pdf.setFont('helvetica', 'bold');
+      pdf.text(`${index + 1}. ${item.name}`, 20, yPos);
+      pdf.text(`₹${(item.quantity * item.price).toFixed(2)}`, pageWidth - 40, yPos);
+      
+      yPos += 5;
+      pdf.setFont('helvetica', 'normal');
+      pdf.text(`   Brand: ${item.brand || 'Generic'} | Unit: ${item.unit}`, 20, yPos);
+      yPos += 4;
+      pdf.text(`   Qty: ${item.quantity} × ₹${item.price}`, 20, yPos);
+      yPos += 8;
+    });
+    
+    yPos += 5;
+    pdf.line(20, yPos, pageWidth - 20, yPos);
+    yPos += 10;
+    
+    // Bill Summary
+    pdf.setFontSize(11);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text('BILL SUMMARY:', 20, yPos);
+    yPos += 8;
+    
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(`Subtotal:`, 20, yPos);
+    pdf.text(`₹${total.toFixed(2)}`, pageWidth - 40, yPos);
+    yPos += 6;
+    
+    pdf.text(`GST (18%):`, 20, yPos);
+    pdf.text(`₹${gst.toFixed(2)}`, pageWidth - 40, yPos);
+    yPos += 6;
+    
+    pdf.text(`Delivery Charge:`, 20, yPos);
+    pdf.text(deliveryFee === 0 ? 'FREE (₹25.00)' : `₹${deliveryFee.toFixed(2)}`, pageWidth - 40, yPos);
+    yPos += 6;
+    
+    if (deliveryFee === 0) {
+      pdf.setFontSize(9);
+      pdf.text('🎉 Free delivery on orders ₹199+', pageWidth / 2, yPos, { align: 'center' });
+      yPos += 6;
+    }
+    
+    pdf.line(20, yPos, pageWidth - 20, yPos);
+    yPos += 8;
+    
+    pdf.setFontSize(14);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text(`GRAND TOTAL:`, 20, yPos);
+    pdf.text(`₹${grandTotal.toFixed(2)}`, pageWidth - 50, yPos);
+    
+    yPos += 15;
+    pdf.line(20, yPos, pageWidth - 20, yPos);
+    yPos += 10;
+    
+    // Footer
+    pdf.setFontSize(10);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text('💝 Thank you for choosing min10!', pageWidth / 2, yPos, { align: 'center' });
+    yPos += 6;
+    pdf.text('🚀 India\'s Fastest Grocery Delivery', pageWidth / 2, yPos, { align: 'center' });
+    yPos += 10;
+    
+    pdf.setFontSize(8);
+    pdf.text('📞 Customer Support: 1800-MIN10-24', pageWidth / 2, yPos, { align: 'center' });
+    yPos += 4;
+    pdf.text('📧 Email: support@min10.com | 🌐 Website: www.min10.com', pageWidth / 2, yPos, { align: 'center' });
+    yPos += 8;
+    
+    pdf.text('⭐ Rate your experience & get 10% off on your next order!', pageWidth / 2, yPos, { align: 'center' });
+    yPos += 8;
+    
+    pdf.text('GST IN: 07AABCM1234M1Z5 | FSSAI LIC: 12345678901234', pageWidth / 2, yPos, { align: 'center' });
+    
+    // Save the PDF
+    pdf.save(`min10_Bill_${billNumber}.pdf`);
   };
 
   const handleShare = async () => {
