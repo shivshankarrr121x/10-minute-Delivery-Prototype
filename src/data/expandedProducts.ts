@@ -134,13 +134,28 @@ const generateProducts = (): Product[] => {
   ];
 
   dairyProducts.forEach((name, index) => {
+    let unit;
+    if (name.includes('Milk') || name.includes('Cream') || name.includes('Lassi') || name.includes('Buttermilk')) {
+      unit = ['200ml', '500ml', '1L'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Eggs')) {
+      unit = ['6 pieces', '12 pieces', '30 pieces'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Ice Cream')) {
+      unit = ['500ml', '1L'][Math.floor(Math.random() * 2)];
+    } else if (name.includes('Cheese') || name.includes('Paneer') || name.includes('Butter')) {
+      unit = ['200g', '500g', '1kg'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Powder')) {
+      unit = ['500g', '1kg'][Math.floor(Math.random() * 2)];
+    } else {
+      unit = ['200ml', '500ml'][Math.floor(Math.random() * 2)];
+    }
+    
     products.push({
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 300) + 40, // ₹40-340
       image: getProductImage(name, 'dairy-eggs'),
       category: 'dairy-eggs',
-      unit: ['200ml', '500ml', '1L', '250g', '500g', '12 pieces'][Math.floor(Math.random() * 6)],
+      unit,
       rating: 4.2 + Math.random() * 0.8,
       deliveryTime: '10 min',
       inStock: true,
@@ -316,13 +331,32 @@ const generateProducts = (): Product[] => {
   ];
 
   personalCareProducts.forEach((name, index) => {
+    let unit;
+    if (name.includes('Shampoo') || name.includes('Body Wash') || name.includes('Face Wash') || name.includes('Conditioner') || name.includes('Oil')) {
+      unit = ['200ml', '400ml', '500ml'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Cream') || name.includes('Lotion') || name.includes('Moisturizer')) {
+      unit = ['50ml', '100ml', '200ml'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Toothpaste') || name.includes('Face Mask') || name.includes('Scrub')) {
+      unit = ['75g', '100g', '150g'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Soap') || name.includes('Toothbrush') || name.includes('Razor')) {
+      unit = '1 piece';
+    } else if (name.includes('Diapers')) {
+      unit = ['20 pieces', '30 pieces', '50 pieces'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Wipes')) {
+      unit = ['30 pieces', '50 pieces', '80 pieces'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Powder') || name.includes('Talcum')) {
+      unit = ['100g', '200g', '400g'][Math.floor(Math.random() * 3)];
+    } else {
+      unit = ['50ml', '100ml'][Math.floor(Math.random() * 2)];
+    }
+    
     products.push({
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 500) + 80, // ₹80-580
       image: getProductImage(name, 'personal-care'),
       category: 'personal-care',
-      unit: ['100ml', '200ml', '500ml', '1 piece', '50g', '100g'][Math.floor(Math.random() * 6)],
+      unit,
       rating: 4.0 + Math.random() * 1.0,
       deliveryTime: '10 min',
       inStock: true,
@@ -346,13 +380,34 @@ const generateProducts = (): Product[] => {
   ];
 
   householdProducts.forEach((name, index) => {
+    let unit;
+    if (name.includes('Detergent') && name.includes('Powder')) {
+      unit = ['500g', '1kg', '2kg'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Liquid') || name.includes('Cleaner') || name.includes('Bleach')) {
+      unit = ['500ml', '1L', '2L'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Batteries')) {
+      unit = ['2 pieces', '4 pieces', '8 pieces'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Bulbs') || name.includes('Lighter') || name.includes('Iron')) {
+      unit = '1 piece';
+    } else if (name.includes('Paper') || name.includes('Towels') || name.includes('Bags')) {
+      unit = ['1 roll', '6 rolls', '12 rolls'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Foil') || name.includes('Wrap')) {
+      unit = ['30m', '50m', '100m'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Tablets')) {
+      unit = ['20 pieces', '30 pieces'][Math.floor(Math.random() * 2)];
+    } else if (name.includes('Polish') || name.includes('Spray')) {
+      unit = ['200ml', '300ml', '500ml'][Math.floor(Math.random() * 3)];
+    } else {
+      unit = '1 piece';
+    }
+    
     products.push({
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 400) + 60, // ₹60-460
       image: getProductImage(name, 'household'),
       category: 'household',
-      unit: ['1 piece', '500ml', '1L', '2L', '250g', '500g'][Math.floor(Math.random() * 6)],
+      unit,
       rating: 4.1 + Math.random() * 0.9,
       deliveryTime: '12 min',
       inStock: true,
@@ -377,13 +432,32 @@ const generateProducts = (): Product[] => {
   ];
 
   snacksProducts.forEach((name, index) => {
+    let unit;
+    if (name.includes('Chips') || name.includes('Nuts') || name.includes('Mix') || name.includes('Popcorn')) {
+      unit = ['100g', '200g', '500g'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Drink') || name.includes('Juice') || name.includes('Water') || name.includes('Cola')) {
+      unit = ['330ml', '500ml', '1L', '2L'][Math.floor(Math.random() * 4)];
+    } else if (name.includes('Bar') || name.includes('Chocolate')) {
+      unit = ['50g', '100g', '200g'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Cookies') || name.includes('Biscuits') || name.includes('Crackers')) {
+      unit = ['200g', '300g', '500g'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Noodles')) {
+      unit = ['70g', '140g', '280g'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Sauce') || name.includes('Ketchup')) {
+      unit = ['200g', '500g', '1kg'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Gum') || name.includes('Candy') || name.includes('Mints')) {
+      unit = '1 pack';
+    } else {
+      unit = ['100g', '200g'][Math.floor(Math.random() * 2)];
+    }
+    
     products.push({
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 300) + 20, // ₹20-320
       image: getProductImage(name, 'snacks-beverages'),
       category: 'snacks-beverages',
-      unit: ['100g', '200g', '500g', '1L', '330ml', '500ml', '1 piece'][Math.floor(Math.random() * 7)],
+      unit,
       rating: 4.0 + Math.random() * 1.0,
       deliveryTime: '8 min',
       inStock: true,
@@ -413,13 +487,36 @@ const generateProducts = (): Product[] => {
   ];
 
   groceryProducts.forEach((name, index) => {
+    let unit;
+    if (name.includes('Rice') || name.includes('Flour') || name.includes('Oats') || name.includes('Quinoa')) {
+      unit = ['500g', '1kg', '5kg', '10kg'][Math.floor(Math.random() * 4)];
+    } else if (name.includes('Pasta') || name.includes('Noodles')) {
+      unit = ['500g', '1kg'][Math.floor(Math.random() * 2)];
+    } else if (name.includes('Lentils') || name.includes('Beans') || name.includes('Peas')) {
+      unit = ['500g', '1kg', '2kg'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Sugar') || name.includes('Jaggery')) {
+      unit = ['500g', '1kg', '2kg'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Honey') || name.includes('Syrup')) {
+      unit = ['250g', '500g', '1kg'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Seeds') || name.includes('Nuts')) {
+      unit = ['100g', '250g', '500g'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Powder') || name.includes('Starch')) {
+      unit = ['100g', '200g', '500g'][Math.floor(Math.random() * 3)];
+    } else if (name.includes('Milk') && name.includes('Coconut')) {
+      unit = ['400ml', '800ml'][Math.floor(Math.random() * 2)];
+    } else if (name.includes('Extract') || name.includes('Essence')) {
+      unit = ['50ml', '100ml'][Math.floor(Math.random() * 2)];
+    } else {
+      unit = ['100g', '250g', '500g'][Math.floor(Math.random() * 3)];
+    }
+    
     products.push({
       id: (idCounter++).toString(),
       name,
       price: Math.floor(Math.random() * 500) + 50, // ₹50-550
       image: groceriesImg,
       category: 'groceries',
-      unit: ['500g', '1 kg', '2 kg', '250g', '100g'][Math.floor(Math.random() * 5)],
+      unit,
       rating: 4.2 + Math.random() * 0.8,
       deliveryTime: '10 min',
       inStock: true,
