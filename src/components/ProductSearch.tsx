@@ -25,8 +25,8 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({
   const filteredAndSortedProducts = useMemo(() => {
     let filtered = products;
 
-    // Filter by category
-    if (selectedCategory !== 'all') {
+    // Filter by category only when there's no search query
+    if (selectedCategory !== 'all' && !searchQuery.trim()) {
       filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
