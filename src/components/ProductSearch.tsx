@@ -23,21 +23,30 @@ export const ProductSearch: React.FC<ProductSearchProps> = ({
   const [showFilters, setShowFilters] = useState(false);
 
   const filteredAndSortedProducts = useMemo(() => {
+    console.log('Search Debug - Starting with products:', products.length);
+    console.log('Search Debug - Search query:', searchQuery);
+    console.log('Search Debug - Selected category:', selectedCategory);
+    
     let filtered = products;
 
     // Filter by category only when there's no search query
     if (selectedCategory !== 'all' && !searchQuery.trim()) {
       filtered = filtered.filter(product => product.category === selectedCategory);
+      console.log('Search Debug - After category filter:', filtered.length);
     }
 
     // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
+      console.log('Search Debug - Searching for:', query);
+      
       filtered = filtered.filter(product => 
         product.name.toLowerCase().includes(query) ||
         product.brand?.toLowerCase().includes(query) ||
         product.description?.toLowerCase().includes(query)
       );
+      console.log('Search Debug - After search filter:', filtered.length);
+      console.log('Search Debug - Sample matching products:', filtered.slice(0, 3).map(p => p.name));
     }
 
     // Filter by price range
